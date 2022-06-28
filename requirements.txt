@@ -1,0 +1,7 @@
+asyncio
+json
+nest_asyncio
+pandas
+requests
+bs4
+pyppeteer
