@@ -16,6 +16,14 @@ class RadioGardenScraper(object):
             requests.get(self.api_endpoint + "/content/places").content
         )["data"]["list"]
 
+    def get_stations_list(self, place):
+        # RadioGarden's API only outputs the first 5 stations for each place
+        if place["size"] <= 5:
+            return self.get_station_list_from_api(place["id"])
+        # When the place size is > 5, we scrap the webpage to extract the links to all stations
+        else:
+            return self.get_station_list_from_html(place["title"], place["id"])
+
     def get_radio_stream_url(self, station_id):
         try:
             return requests.head(

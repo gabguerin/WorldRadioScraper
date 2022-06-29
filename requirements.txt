@@ -1,7 +1,6 @@
-asyncio
-json
-nest_asyncio
-pandas
-requests
-bs4
-pyppeteer
+asyncio==3.4.3
+nest_asyncio==1.5.5
+pandas==1.4.3
+requests==2.28.0
+beautifulsoup4==4.11.1
+pyppeteer==1.0.2

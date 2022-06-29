@@ -24,13 +24,7 @@ def main():
         if place["title"] in places_saved or place["size"] > 5:
             continue
 
-        # RadioGarden's API only outputs the first 4 stations for each place
-        if place["size"] <= 5:
-            stations_list = radio_garden_scraper.get_station_list_from_api(place["id"])
-        # When the place size is > 4, we scrap the webpage to extract the links to all stations
-        else:
-            stations_list = radio_garden_scraper.get_station_list_from_html(place["title"], place["id"])
-
+        stations_list = radio_garden_scraper.get_stations_list(place)
         place_data = []
         for station in stations_list:
             station_id = station["href"].split("/")[-1]
