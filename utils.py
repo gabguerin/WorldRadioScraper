@@ -18,7 +18,13 @@ def open_df(file_name, file_format):
     if not exists(file):
         return pd.DataFrame(
             columns=[
-                "country", "place_name", "place_id", "location", "station_name", "station_id", "station_stream_url"
+                "country",
+                "place_name",
+                "place_id",
+                "location",
+                "station_name",
+                "station_id",
+                "station_stream_url",
             ]
         )
     if file_format == "csv":

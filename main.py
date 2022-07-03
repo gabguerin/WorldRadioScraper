@@ -37,15 +37,19 @@ def main():
                     "location": place["geo"],
                     "station_name": station["title"],
                     "station_id": station_id,
-                    "station_stream_url": radio_garden_scraper.get_radio_garden_stream_url(station_id)
+                    "station_stream_url": radio_garden_scraper.get_radio_garden_stream_url(
+                        station_id
+                    ),
                 }
             )
         print([station["title"] for station in stations_list])
 
         # Save all the stations information of the current place
-        df_world_radio = pd.concat([df_world_radio, pd.DataFrame(place_data)], ignore_index=True)
+        df_world_radio = pd.concat(
+            [df_world_radio, pd.DataFrame(place_data)], ignore_index=True
+        )
         save_df(df_world_radio, FILE_NAME, FILE_FORMAT)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

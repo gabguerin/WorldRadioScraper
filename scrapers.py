@@ -13,9 +13,9 @@ class RadioGardenScraper(object):
         self.api_endpoint = "https://radio.garden/api/ara"
 
     def get_places_list(self):
-        return json.loads(
-            requests.get(self.api_endpoint + "/content/places").content
-        )["data"]["list"]
+        return json.loads(requests.get(self.api_endpoint + "/content/places").content)[
+            "data"
+        ]["list"]
 
     def get_stations_list(self, place):
         # RadioGarden's API only outputs the first 5 stations for each place
@@ -28,7 +28,7 @@ class RadioGardenScraper(object):
         try:
             radio_url = requests.head(
                 self.api_endpoint + "/content/listen/" + station_id + "/channel.mp3",
-                allow_redirects=True
+                allow_redirects=True,
             ).url
             return re.sub("[?&]listening-from-radio-garden=[0-9]*", "", radio_url)
         except:
@@ -59,14 +59,19 @@ class RadioGardenScraper(object):
                 station_ids.append(link["data-jest-href"])
             except:
                 station_ids.append("")
-        return [{"title": data[0], "href": data[1]} for data in list(zip(station_names, station_ids))]
+        return [
+            {"title": data[0], "href": data[1]}
+            for data in list(zip(station_names, station_ids))
+        ]
 
     @staticmethod
     async def get_place_html(place_name, place_id):
         browser = await launch(headLess=False)
         page = await browser.newPage()
-        await page.goto(f"https://radio.garden/visit/{place_name.lower()}/{place_id}/channels")
-        await page.click('body')
+        await page.goto(
+            f"https://radio.garden/visit/{place_name.lower()}/{place_id}/channels"
+        )
+        await page.click("body")
         await page.waitForNavigation({"waitUntil": "networkidle0"})
         html = await page.content()
         return html
