@@ -1,5 +1,6 @@
 import asyncio
 import json
+import re
 
 import nest_asyncio
 import requests
@@ -21,17 +22,20 @@ class RadioGardenScraper(object):
         if place["size"] <= 5:
             return self.get_station_list_from_api(place["id"])
         # When the place size is > 5, we scrap the webpage to extract the links to all stations
-        else:
-            return self.get_station_list_from_html(place["title"], place["id"])
+        return self.get_station_list_from_html(place["title"], place["id"])
 
     def get_radio_stream_url(self, station_id):
         try:
-            return requests.head(
+            radio_url = requests.head(
                 self.api_endpoint + "/content/listen/" + station_id + "/channel.mp3",
                 allow_redirects=True
             ).url
+            return re.sub("[?&]listening-from-radio-garden=[0-9]*", "", radio_url)
         except:
-            return self.api_endpoint + "/content/listen/" + station_id + "/channel.mp3",
+            return self.api_endpoint + "/content/listen/" + station_id + "/channel.mp3"
+
+    def get_radio_garden_stream_url(self, station_id):
+        return self.api_endpoint + "/content/listen/" + station_id + "/channel.mp3"
 
     def get_station_list_from_api(self, place_id):
         return json.loads(

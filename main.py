@@ -1,4 +1,5 @@
 import pandas as pd
+from tqdm import tqdm
 
 from scrapers import RadioGardenScraper
 from utils import open_df, save_df
@@ -21,12 +22,12 @@ def main():
         idx += 1
 
         # Skip the computations if the station of the current place are already saved in the .csv
-        if place["title"] in places_saved or place["size"] > 5:
+        if place["title"] in places_saved:
             continue
 
         stations_list = radio_garden_scraper.get_stations_list(place)
         place_data = []
-        for station in stations_list:
+        for station in tqdm(stations_list):
             station_id = station["href"].split("/")[-1]
             place_data.append(
                 {
@@ -36,7 +37,7 @@ def main():
                     "location": place["geo"],
                     "station_name": station["title"],
                     "station_id": station_id,
-                    "station_stream_url": radio_garden_scraper.get_radio_stream_url(station_id)
+                    "station_stream_url": radio_garden_scraper.get_radio_garden_stream_url(station_id)
                 }
             )
         print([station["title"] for station in stations_list])

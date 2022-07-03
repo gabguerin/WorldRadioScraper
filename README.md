@@ -5,7 +5,7 @@ ___
 
 ## APIs
 
-- RadioGarden : https://radio.garden/api
+- RadioGarden API : https://radio.garden/api
 
 ## Output data
 
